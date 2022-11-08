@@ -11,9 +11,20 @@ const client = new Client({
 client.connect();
 
 app.get('/',function(req,res){
-    res.send('Hello world');
+    getAll(req,res);
+    //res.send('Hello world');
 })
 
 app.listen(PORT,function(){
     console.log(`Server is running on port : ${PORT}`)
 })
+
+async function getAll(req,res){
+    try {
+        const result = await client.query(`SELECT * FROM items;`)
+        console.log(result.rows)
+        res.send(result.rows);
+    } catch (error) {
+        console.error(error)
+    }
+}
